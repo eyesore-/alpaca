@@ -76,9 +76,12 @@ passport.use('local-login', new LocalStrategy({
 
 // Routes
 // Connect controller methods to their corresponding routes
+router.get('/user', controller.user.get);
 router.get('/categories', controller.categories.get);
 router.get('/questions', controller.questions.get);
-router.get('/questions/public', controller.questions.getPublic);
+router.get('/quizzes/public', controller.quizzes.getPublic);
+router.get('/quizzes', controller.quizzes.get);
+router.post('/saveQuiz', controller.questions.save);
 router.post('/questions', controller.questions.post);
 router.post('/auth/login', passport.authenticate('local-login'), controller.user.login);
 router.post('/auth/signup', controller.user.post);
@@ -87,6 +90,7 @@ router.get('/auth/signout', controller.user.logout);
 // Port
 app.set('port', 1337);
 // If we are being run directly, run the server.
+// need server.listen instead of app.listen for socket.io
 if (!module.parent) {
   server.listen(app.get('port'));
   console.log('Listening on', app.get('port'));
